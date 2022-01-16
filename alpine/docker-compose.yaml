@@ -1,0 +1,11 @@
+version: '3'
+services:
+  dev-java:
+    image: dev-alpine-8
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+    # environment:
+    #   - JAVA_HOME=/opt/jdk-11/

@@ -1,0 +1,15 @@
+FROM maven:3.8.4-ibmjava-8
+# FROM maven:3.8.4-ibmjava-8-alpine
+# FROM maven:3.8.4-jdk-11
+
+ENV TZ=America/Sao_Paulo
+RUN \
+echo ''\
+&& curl -o /opt/jdk11.tar.gz https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_linux-x64_bin.tar.gz \
+&& tar xzvf /opt/jdk11.tar.gz -C /opt/ \
+&& rm -rf /opt/jdk11.tar.gz \
+&& echo '' 
+
+ENV JAVA_HOME=/opt/jdk-11
+ENV JDK_HOME=/opt/jdk-11
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${JDK_HOME}/bin

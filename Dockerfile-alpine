@@ -1,0 +1,26 @@
+FROM maven:3.8.4-ibmjava-8-alpine
+
+ARG USERNAME=non-root
+ARG USER_UID=1002
+ARG USER_GID=$USER_UID
+
+RUN \
+echo ''\
+&& apk --no-cache add openjdk11 sudo git shadow tzdata \
+&& groupadd --gid $USER_GID $USERNAME \
+&& useradd --uid $USER_UID --gid $USER_GID -m $USERNAME -s /bin/bash \
+&& echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} && chmod 0440 /etc/sudoers.d/${USERNAME} \
+&& mkdir -p /home/${USERNAME}\
+&& chown ${USERNAME}: /home/${USERNAME}/ \
+&& echo '' 
+# && echo '' 
+
+USER ${USERNAME}
+RUN mkdir -p /home/${USERNAME}/.vscode-server/extensions /home/${USERNAME}/.vscode-server/data/ \
+&& bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+ENV TZ=America/Sao_Paulo
+ENV THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%H:%M:%S"}
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
+ENV JDK_HOME=/usr/lib/jvm/java-11-openjdk/
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${JDK_HOME}/bin
+

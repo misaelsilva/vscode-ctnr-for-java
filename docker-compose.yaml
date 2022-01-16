@@ -1,0 +1,13 @@
+version: '3'
+services:
+  dev-java:
+    user: non-root
+    image: dev-java-8-alpine
+    container_name: dev-java-8
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    # entrypoint: /bin/sh -c "while sleep 1000; do :; done"
+    build: 
+      context: .
+      dockerfile: ./Dockerfile-alpine
+    # environment:
+    #   - JAVA_HOME=/opt/jdk-11/
